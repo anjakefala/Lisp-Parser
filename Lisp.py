@@ -4,3 +4,20 @@
 
 #During your interview, you will pair on writing an interpreter to run the AST. You can start by implementing a single built-in function (for example, +) and add more if you have time.
 
+class Tree:
+    def __init__(self, value, children=None):
+        self.children = []
+        self.value = value
+        if children is not None:
+            for child in children:
+                self.add_child(child)
+    def add_child(self, child):
+        if not isinstance(child, Tree):
+            print("Error: child is not an object of type Tree")
+            return(-1)
+        else:
+            self.children.append(child)
+            return(0)
+    def print_tree():
+
+
