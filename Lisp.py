@@ -9,28 +9,24 @@ class Tree:
         self.children = []
         self.value = value
         if children is not None:
-            for child in children:
-                self.add_child(child)
-    def add_child(self, child):
-        if not isinstance(child, Tree):
-            print("Error: child is not an object of type Tree")
-            return(-1)
-        else:
-            self.children.append(child)
-            return(0)
-    def __str__(self):
-        tree = str(self.value)
-        tree += "\n \t"
+            self.add_children(children)
+    def add_children(self, children):
+        for child in children:
+            if not isinstance(child, Tree):
+                print("Error: child is not an object of type Tree")
+                return(-1)
+            else:
+                self.children.append(child)
+        return(0)
+    def __str__(self, level=0):
+        tree = "\t"*level + str(self.value) + "\n"
         if self.children is not None:
             for child in self.children:
-                tree += child.__str__()
+                tree += child.__str__(level+1)
         return(tree)
 
 testTree = Tree(2)
-testTree2 = Tree(3)
-testTree3 = Tree(4)
 
-testTree .add_child(testTree2)
-testTree .add_child(testTree3)
+testTree .add_children([Tree(2), Tree(3), Tree(4)])
 
 print(testTree)
