@@ -18,6 +18,19 @@ class Tree:
         else:
             self.children.append(child)
             return(0)
-    def print_tree():
+    def __str__(self):
+        tree = str(self.value)
+        tree += "\n \t"
+        if self.children is not None:
+            for child in self.children:
+                tree += child.__str__()
+        return(tree)
 
+testTree = Tree(2)
+testTree2 = Tree(3)
+testTree3 = Tree(4)
 
+testTree .add_child(testTree2)
+testTree .add_child(testTree3)
+
+print(testTree)
