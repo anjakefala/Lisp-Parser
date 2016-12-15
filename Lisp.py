@@ -6,6 +6,7 @@
 
 # TODO: RC problem description suggested working with a nested array. Is that a better strategy than working with a Tree object? PROBABLY. But clear-cut objects are how my mind works. Let's try both and see which is easier to work with.
 
+########################################################################################################################
 class Tree:
     """
     A generic tree build.
@@ -56,12 +57,36 @@ class Tree:
                 tree += child.__str__(level+1)
         return(tree)
 
+#########################################################################################################################
+
+def are_par_balanced(command):
+    par_stack = []
+    for c in command:
+        if c == "(":
+            par_stack.append(c)
+        elif c == ")":
+            if par_stack == []:
+                return(False)
+            else:
+                par_stack.pop()
+    if par_stack == []:
+        return(True)
+    else:
+        return(False)
+
+def parse_command(command):
+    # LISP commands are nested and formatted using brackets
+    # We need to check the parantheses are balanced
+    assert are_par_balanced(command)
+
+command = "(first (list 1 (+ 2 3) 9))"
+parse_command(command)
+
 # Testing testing 1 2 3
-tree1 = Tree("+", [Tree(2), Tree(3)])
-tree2 = Tree("list", [Tree(1), tree1, Tree(9)])
-tree3 = Tree("first", [tree2])
+#tree1 = Tree("+", [Tree(2), Tree(3)])
+#tree2 = Tree("list", [Tree(1), tree1, Tree(9)])
+#tree3 = Tree("first", [tree2])
 
-tree3.add_children(tree2)
+#tree3.add_children(tree2)
 
-
-print(tree3)
+#print(tree3)
