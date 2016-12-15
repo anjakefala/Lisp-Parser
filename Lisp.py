@@ -34,11 +34,36 @@ def are_par_balanced(command):
     else:
         return(False)
 
+def atomic_expression(command):
+    """
+    Takes a string which represents a LISP command and translates it into a list of atomic expressions for further parsing
+    PARAMETERS
+    command: String, a legal LISP command
+    RETURNS
+    atoms: list, contains the atomic expressions of the LISP command
+    """
+    atoms = []
+    return(atoms)
+
 def parse_command(command):
-    # LISP commands are nested and formatted using brackets
-    # We need to check the parantheses are balanced
+    """
+    Takes an input program, verifies its syntax and translates it into an abstract syntax tree.
+    PARAMETERS
+    command: String, a legal LISP command
+    RETURNS
+    AST: List, an abstract syntax tree which represents the LIST command
+    """
+    # Syntax Assumption: Parantheses will be balanced
     assert are_par_balanced(command)
+    atoms = atomic_expression(command)
+
+    AST = []
+    return(AST)
+
+def execute_command(AST):
+    # We'll be working on this during the pair programming assignment
+    print(AST)
 
 command = "(first (list 1 (+ 2 3) 9))"
-parse_command(command)
-
+abstractSyntaxTree = parse_command(command)
+#execute_command(abstractSyntaxTree)
