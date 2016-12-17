@@ -42,7 +42,22 @@ def atomic_expression(command):
     RETURNS
     atoms: list, contains the atomic expressions of the LISP command
     """
-    atoms = []
+    # All the atomic expressions have spaces between them except "(" and ")" If we pad "(" and ")" with spaces, we can easily use .split(" ") to create a list of the atomic expressions
+    command = command.replace("(", " ( ")
+    command = command.replace(")", " ) ")
+    atoms = command.split(" ")
+    # We have some cells in the list that are just a blank space, so let's remove those
+    i = 0
+    for atom in atoms:
+        if atom == "":
+            del atoms[i]
+        i += 1
+    # TODO
+    # We should convert the numbers to ints
+    # And look into if our function breaks if strings are involved --> How are strings handled in lisp?
+    return(atoms)
+
+def abstract_syntax_tree(atoms):
     return(atoms)
 
 def parse_command(command):
@@ -65,5 +80,5 @@ def execute_command(AST):
     print(AST)
 
 command = "(first (list 1 (+ 2 3) 9))"
-abstractSyntaxTree = parse_command(command)
+AST= parse_command(command)
 #execute_command(abstractSyntaxTree)
