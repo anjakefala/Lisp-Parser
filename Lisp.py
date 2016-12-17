@@ -49,11 +49,16 @@ def atomic_expression(command):
     # We have some cells in the list that are just a blank space, so let's remove those
     i = 0
     for atom in atoms:
+        # We are going to handle some of the possibly types of atomic expressions
         if atom == "":
             del atoms[i]
+
+        print(atoms)
+        print(atoms[i])
         i += 1
     # TODO
-    # We should convert the numbers to ints
+    # Deal with different possible types of atomic expressions
+    # +ve int, -ve int, floating point (.), ratios ("/"), string, function call
     # And look into if our function breaks if strings are involved --> How are strings handled in lisp?
     return(atoms)
 
@@ -71,7 +76,6 @@ def parse_command(command):
     # Syntax Assumption: Parantheses will be balanced
     assert are_par_balanced(command)
     atoms = atomic_expression(command)
-
     AST = []
     return(AST)
 
