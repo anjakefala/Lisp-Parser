@@ -122,7 +122,9 @@ def abstract_syntax_tree(atoms):
         if atom == ")":
             return(ast)
         elif atom == "(":
-            ast.append(abstract_syntax_tree(atoms[i:]))
+            subTree = abstract_syntax_tree(atoms[i:])
+            ast.append(subTree)
+            # We need to push i so that it indexes the most recent ")" between old i and the end.
         else:
             ast.append(atom)
         i += 1
