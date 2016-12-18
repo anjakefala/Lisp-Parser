@@ -113,8 +113,19 @@ def atomic_expression(command):
     return(atoms)
 
 def abstract_syntax_tree(atoms):
-    print(atoms)
-    return(atoms)
+    # We will recurse this? : D
+    # Yes, we will RECURSE THIS
+    assert atoms[0] == "("
+    ast = []
+    i = 1
+    for atom in atoms[1:]:
+        if atom == ")":
+            return(ast)
+        elif atom == "(":
+            ast.append(abstract_syntax_tree(atoms[i:]))
+        else:
+            ast.append(atom)
+        i += 1
 
 def parse_command(command):
     """
@@ -130,6 +141,8 @@ def parse_command(command):
 
     atoms = atomic_expression(command)
     AST = abstract_syntax_tree(atoms)
+    print("Final AST" + str(AST))
+    print("Correct answer is [first, [list, 1, [+, 2, 3], 9]]")
     return(AST)
 
 def execute_command(AST):
@@ -139,6 +152,6 @@ def execute_command(AST):
     # We are assuming the numbers should already have been converted
     return(AST)
 
-command = '("first" (list "1" (+ -2 3) 9.2))'
+command = '(first (list 1 (+ 2 3) 9))'
 AST= parse_command(command)
 #execute_command(abstractSyntaxTree)
