@@ -14,9 +14,13 @@ def are_par_balanced(command):
     True: If the parantheses are balanced
     False: If the parantheses are not balanced
     """
-    assert isinstance(command, str)
-    # A Lisp command will always contain brackets
-    assert "(" in command
+    # Error Checking
+    if not isinstance(command, str):
+        raise ValueError
+    # A Lisp command must start with "("
+    if "(" != command[0]:
+        raise SyntaxError
+
     par_stack = []
     for c in command:
         # If we find an open parantheses, we push it onto the stack
@@ -73,9 +77,13 @@ def atomic_expression(command):
     RETURNS
     atoms: list, contains the atomic expressions of the LISP command
     """
+    # Error Checking
+    if not isinstance(command, str):
+        raise ValueError
+    # A LISP command must start with "("
+    if "(" != command[0]:
+        raise SyntaxError
 
-    assert isinstance(command, str)
-    assert "(" in command
     print("Original command pre-processing: " + command)
 
     # All the atomic expressions have spaces between them except "(" and ")" If we pad "(" and ")" with spaces, we can easily use .split(" ") to create a list of the atomic expressions
@@ -105,6 +113,7 @@ def atomic_expression(command):
     return(atoms)
 
 def abstract_syntax_tree(atoms):
+    print(atoms)
     return(atoms)
 
 def parse_command(command):
@@ -115,10 +124,12 @@ def parse_command(command):
     RETURNS
     AST: List, an abstract syntax tree which represents the LIST command
     """
-    # Syntax Assumption: Parantheses will be balanced
-    assert are_par_balanced(command)
+    # Syntax Assumption: Parantheses must be balanced
+    if not are_par_balanced(command):
+        raise SyntaxError
+
     atoms = atomic_expression(command)
-    AST = []
+    AST = abstract_syntax_tree(atoms)
     return(AST)
 
 def execute_command(AST):
