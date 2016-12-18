@@ -34,6 +34,13 @@ def are_par_balanced(command):
     else:
         return(False)
 
+def isfloat(str):
+    try:
+        float(str)
+        return True
+    except ValueError:
+        return False
+
 def atomic_expression(command):
     """
     Takes a string which represents a LISP command and translates it into a list of atomic expressions for further parsing
@@ -42,24 +49,30 @@ def atomic_expression(command):
     RETURNS
     atoms: list, contains the atomic expressions of the LISP command
     """
+
     # All the atomic expressions have spaces between them except "(" and ")" If we pad "(" and ")" with spaces, we can easily use .split(" ") to create a list of the atomic expressions
     command = command.replace("(", " ( ")
     command = command.replace(")", " ) ")
     atoms = command.split(" ")
     # We have some cells in the list that are just a blank space, so let's remove those
+    while "" in atoms:
+        atoms.remove("")
+
+    # Typecasting the numbers
     i = 0
     for atom in atoms:
-        # We are going to handle some of the possibly types of atomic expressions
-        if atom == "":
-            del atoms[i]
-
-        print(atoms)
-        print(atoms[i])
+        # Does the atom represent an integer?
+        if atom.isdigit():
+            atoms[i] = int(atom)
+            i += 1
+            continue
+        # Does this atom represent a floating point number?
+        elif isfloat(atom):
+            atoms[i] = float(atom)
+            i += 1
+            continue
         i += 1
-    # TODO
-    # Deal with different possible types of atomic expressions
-    # +ve int, -ve int, floating point (.), ratios ("/"), string, function call
-    # And look into if our function breaks if strings are involved --> How are strings handled in lisp?
+    print(atoms)
     return(atoms)
 
 def abstract_syntax_tree(atoms):
@@ -81,8 +94,11 @@ def parse_command(command):
 
 def execute_command(AST):
     # We'll be working on this during the pair programming assignment
-    print(AST)
+    # Note: Strings will be represented as ' " ___ "  ', function calls and variable names will be represented '______'
+    # In LISP, t --> True; nil --> False
+    # The numbers should already have been converted
 
-command = "(first (list 1 (+ 2 3) 9))"
+command = '("first" (list "1" (+ -2 3) 9.2))'
+print(command)
 AST= parse_command(command)
 #execute_command(abstractSyntaxTree)
