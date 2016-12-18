@@ -14,6 +14,7 @@ def are_par_balanced(command):
     True: If the parantheses are balanced
     False: If the parantheses are not balanced
     """
+    assert isinstance(command, str)
     par_stack = []
     for c in command:
         # If we find an open parantheses, we push it onto the stack
@@ -34,9 +35,28 @@ def are_par_balanced(command):
     else:
         return(False)
 
-def isfloat(str):
+def is_int(s):
+    """
+    Evaluates whether a string represents a positive integer.
+    PARAMETERS
+    s: String, a single word
+    RETURNS
+    True: If that word can be interpreted as a positive integer: Returns True for: '2', '10'
+    False: If that word cannot be intepreted as a positive integer: Returns False for: ' "2" ', '2.3', '-2'
+    """
+    return s.isdigit()
+
+def is_float(s):
+    """
+    Evaluates whether a string represents a number
+    PARAMETERS
+    s: String, a single word
+    RETURNS
+    True: If that word can be interpreted as a number: Returns True for '2.3', '-2'
+    False: If that word does not represent a number: Returns False for ' "2.3" ', 'cabbages'
+    """
     try:
-        float(str)
+        float(s)
         return True
     except ValueError:
         return False
@@ -62,12 +82,12 @@ def atomic_expression(command):
     i = 0
     for atom in atoms:
         # Does the atom represent an integer?
-        if atom.isdigit():
+        if is_int(atom):
             atoms[i] = int(atom)
             i += 1
             continue
         # Does this atom represent a floating point number?
-        elif isfloat(atom):
+        elif is_float(atom):
             atoms[i] = float(atom)
             i += 1
             continue
@@ -96,7 +116,7 @@ def execute_command(AST):
     # We'll be working on this during the pair programming assignment
     # Note: Strings will be represented as ' " ___ "  ', function calls and variable names will be represented '______'
     # In LISP, t --> True; nil --> False
-    # The numbers should already have been converted
+    # We are assuming the numbers should already have been converted
 
 command = '("first" (list "1" (+ -2 3) 9.2))'
 print(command)
