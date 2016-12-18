@@ -15,6 +15,8 @@ def are_par_balanced(command):
     False: If the parantheses are not balanced
     """
     assert isinstance(command, str)
+    # A Lisp command will always contain brackets
+    assert "(" in command
     par_stack = []
     for c in command:
         # If we find an open parantheses, we push it onto the stack
@@ -44,6 +46,7 @@ def is_int(s):
     True: If that word can be interpreted as a positive integer: Returns True for: '2', '10'
     False: If that word cannot be intepreted as a positive integer: Returns False for: ' "2" ', '2.3', '-2'
     """
+    assert isinstance(s, str)
     return s.isdigit()
 
 def is_float(s):
@@ -55,6 +58,7 @@ def is_float(s):
     True: If that word can be interpreted as a number: Returns True for '2.3', '-2'
     False: If that word does not represent a number: Returns False for ' "2.3" ', 'cabbages'
     """
+    assert isinstance(s, str)
     try:
         float(s)
         return True
@@ -70,10 +74,15 @@ def atomic_expression(command):
     atoms: list, contains the atomic expressions of the LISP command
     """
 
+    assert isinstance(command, str)
+    assert "(" in command
+    print("Original command pre-processing: " + command)
+
     # All the atomic expressions have spaces between them except "(" and ")" If we pad "(" and ")" with spaces, we can easily use .split(" ") to create a list of the atomic expressions
     command = command.replace("(", " ( ")
     command = command.replace(")", " ) ")
     atoms = command.split(" ")
+
     # We have some cells in the list that are just a blank space, so let's remove those
     while "" in atoms:
         atoms.remove("")
@@ -92,7 +101,7 @@ def atomic_expression(command):
             i += 1
             continue
         i += 1
-    print(atoms)
+    print("Processed list of atomic expressions: " + str(atoms))
     return(atoms)
 
 def abstract_syntax_tree(atoms):
@@ -117,8 +126,8 @@ def execute_command(AST):
     # Note: Strings will be represented as ' " ___ "  ', function calls and variable names will be represented '______'
     # In LISP, t --> True; nil --> False
     # We are assuming the numbers should already have been converted
+    return(AST)
 
 command = '("first" (list "1" (+ -2 3) 9.2))'
-print(command)
 AST= parse_command(command)
 #execute_command(abstractSyntaxTree)
