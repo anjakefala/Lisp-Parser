@@ -74,6 +74,32 @@ def is_float(s):
     except ValueError:
         return False
 
+def is_bool_true(s):
+    """
+    Evaluates whether a string represents the LISP boolean value for True
+    PARAMETERS
+    s: String, a single word
+    RETURNS
+    True: If the string represents the LISP literal for True
+    False: Otherwise
+    """
+    assert isinstance(s, str)
+    if s == "t":
+        return True
+
+def is_bool_false(s):
+    """
+    Evaluates whether a string represents the LISP boolean value for False
+    PARAMETERS:
+    s: String, a single word
+    RETURNS
+    True: If the string represents the LISP literal for False
+    False: Otherwise
+    """
+    assert isinstance(s, str)
+    if s == "nil":
+        return True
+
 def atomic_expression(command):
     """
     Takes a string which represents a LISP command and translates it into a list of atomic expressions for further parsing
@@ -117,6 +143,10 @@ def atomic_expression(command):
             atoms[i] = float(atom)
             i += 1
             continue
+        elif is_bool_true(atom):
+            atoms[i] = True
+        elif is_bool_false(atom):
+            atoms[i] = False
         i += 1
 
     # Compare with the pre-processed expression to ensure that everything looks fine.
