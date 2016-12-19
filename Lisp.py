@@ -115,30 +115,27 @@ def atomic_expression(command):
 def abstract_syntax_tree(atoms):
     # We will recurse this? : D
     # Yes, we will RECURSE THIS
-    # So it gets stuck when this gets called and 9 is atoms[0].....Why is 9 atoms[0] and why is it showing up here?
     assert atoms[0] == "("
     ast = []
     i = 1
     print("Entering loop:")
-    while i < len(atoms):
+    while atoms[i] != ")":
         atom = atoms[i]
         print("Current atom: "+ str(atom))
-        if atom == ")":
-            print("Returning AST:" + str(ast))
-            return(ast)
-        elif atom == "(":
-            ast.append(abstract_syntax_tree(atoms[i:]))
+        if atom == "(":
+            subTree, inew = abstract_syntax_tree(atoms[i:])
+            ast.append(subTree)
             print("New AST after recursion" + str(ast))
-            inew = atoms[i:].index(")")
-            i += inew + 1
+            i += inew
             print("New i " + str(i))
-            print("What is at that index " + str(atoms[i]))
             # We need to push i so that it indexes the most recent ")" between old i and the end.
         else:
             ast.append(atom)
             print("New ast after adding atom:" + str(ast))
         i += 1
 
+    print("Returning AST:" + str(ast))
+    return(ast, i)
 def parse_command(command):
     """
     Takes an input program, verifies its syntax and translates it into an abstract syntax tree.
@@ -152,7 +149,7 @@ def parse_command(command):
         raise SyntaxError
 
     atoms = atomic_expression(command)
-    AST = abstract_syntax_tree(atoms)
+    AST, blank = abstract_syntax_tree(atoms)
     print("Final AST" + str(AST))
     print("Correct answer is [first, [list, 1, [+, 2, 3], 9]]")
     return(AST)
