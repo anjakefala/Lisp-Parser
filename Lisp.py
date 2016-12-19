@@ -259,8 +259,6 @@ def parse_command(command):
 def execute_command(ast):
     # We'll be working on this during the pair programming assignment
     # Note: Strings will be represented as ' " ___ "  ', function calls and variable names will be represented '______'
-    # In LISP, t --> True; nil --> False
-    # We are assuming the numbers should already have been converted
     return(ast)
 
 # The LISP command we want to execute
