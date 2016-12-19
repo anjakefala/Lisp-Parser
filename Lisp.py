@@ -113,6 +113,10 @@ def atomic_expression(command):
     return(atoms)
 
 def abstract_syntax_tree(atoms):
+    AST, blank = abstract_syntax_tree_rec(atoms)
+    return(AST)
+
+def abstract_syntax_tree_rec(atoms):
     # We will recurse this? : D
     # Yes, we will RECURSE THIS
     assert atoms[0] == "("
@@ -123,7 +127,7 @@ def abstract_syntax_tree(atoms):
         atom = atoms[i]
         print("Current atom: "+ str(atom))
         if atom == "(":
-            subTree, inew = abstract_syntax_tree(atoms[i:])
+            subTree, inew = abstract_syntax_tree_rec(atoms[i:])
             ast.append(subTree)
             print("New AST after recursion" + str(ast))
             i += inew
@@ -149,7 +153,7 @@ def parse_command(command):
         raise SyntaxError
 
     atoms = atomic_expression(command)
-    AST, blank = abstract_syntax_tree(atoms)
+    AST = abstract_syntax_tree(atoms)
     print("Final AST" + str(AST))
     print("Correct answer is [first, [list, 1, [+, 2, 3], 9]]")
     return(AST)
